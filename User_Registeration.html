@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=320px, initial-scale=1.0, maximum-scale=1.0; user-scalable=0;">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: black;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px grey
+        }
+        section {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="date"], input[list] {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid grey;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+        input[type="submit"] {
+            background-color: #007bff;
+            color: #fff;
+            font-size: 16px;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+    </style>
+</head>
+<body>
+
+    <h1>User Registration</h1>
+        
+    <form>
+        <section>
+            <!-- Basic Information Section -->
+            <label for="name">Full Name:</label><br>
+            <input type="text" id="name" name="name" required placeholder="Jon Smith"><br>
+            <label for="email">Email:</label><br>
+            <input type="email" id="email" name="email" required placeholder="user@example.com"><br>
+            <label for="birthdate">Date of Birth:</label><br>
+            <input type="date" id="birthdate" name="birthdate" pattern="date" max="2020-01-01" min="1990-01-01" required>
+        </section>
+        <section>
+            <!-- Preferences Section -->
+            <label for="gender">Gender:</label><br>
+            <input type="radio" id="male" name="gender" value="male" required>
+            <label for="gender">Male</label><br>
+            <input type="radio" id="female" name="gender" value="female" required>
+            <label for="gender">Female</label><br><br>
+            
+            
+            <label for="skills">Skills:</label><br>
+            <input type="checkbox" id="html" name="coding_language" value="HTML">
+            <label for="html">HTML</label><br>
+            <input type="checkbox" id="css" name="coding_language" value="CSS">
+            <label for="css">CSS</label><br>
+            <input type="checkbox" id="javascript" name="coding_language" value="JavaScript">
+            <label for="javascript">JavaScript</label><br>
+            <input type="checkbox" id="python" name="coding_language" value="python">
+            <label for="python">Python</label><br>
+            <input type="checkbox" id="other" name="coding_language" value="other">
+            <label for="other">Other</label><br>
+            <label for="other_skills">If you selected other please mention them:</label><br>
+            <input type="text" id="other_skills" name="other_skills">
+        </section>
+
+        <section>
+            <!-- Country Selection Section -->
+            <label for="countries">Country:</label><br>
+            <input list="countries" checked>
+            <datalist id="countries">
+                <option value="Egypt">
+                <option value="United States">
+                <option value="Canada">
+                <option value="Germany">
+                <option value="France">
+                <option value="Italy">
+                <option value="Japan">
+                <option value="India">
+                <option value="Australia">
+                <option value="Brazil">
+            </datalist>
+        </section>
+        <section>
+            <!-- File Upload section -->
+            <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
+        </section>
+
+        <section>
+            <!-- Submit Section -->
+            <input type="submit" value="Submit">
+        </section>
+    </form>
+
+</body>
+</html>
