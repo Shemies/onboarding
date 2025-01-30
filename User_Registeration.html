@@ -8,7 +8,7 @@
         body {
             font-family: Arial;
             padding: 20px;
-            background-color: #f9f9f9;
+            background-color: white;
         }
         h1 {
             text-align: center;
@@ -30,7 +30,7 @@
             font-weight: bold;
             margin-bottom: 5px;
         }
-        input[type="text"], input[type="email"], input[type="date"], input[list] {
+        input[type="text"], input[type="email"], input[type="date"], select {
             width: 100%;
             padding: 10px;
             margin-top: 5px;
@@ -42,9 +42,10 @@
         input[type="radio"], input[type="checkbox"] {
             margin-right: 5px;
         }
+
         input[type="submit"] {
-            background-color: #007bff;
-            color: #fff;
+            background-color: green;
+            color: white;
             font-size: 16px;
             border: none;
             padding: 10px 15px;
@@ -59,67 +60,84 @@
 
     <h1>User Registration</h1>
         
-    <form>
+    <form method="get" action="data.html" id="myForm">
         <section>
             <!-- Basic Information Section -->
             <label for="name">Full Name:</label><br>
-            <input type="text" id="name" name="name" required placeholder="Jon Smith"><br>
+            <input type="text" id="name" name="Name" required placeholder="Jon Smith"   ><br>
             <label for="email">Email:</label><br>
-            <input type="email" id="email" name="email" required placeholder="user@example.com"><br>
+            <input type="email" id="email" name="Email" required placeholder="user@example.com"><br>
             <label for="birthdate">Date of Birth:</label><br>
-            <input type="date" id="birthdate" name="birthdate" pattern="date" max="2020-01-01" min="1990-01-01" required>
+            <input type="date" id="birthdate" name="Date of Birth" max="2020-01-01" min="1990-01-01" required>
         </section>
         <section>
             <!-- Preferences Section -->
             <label for="gender">Gender:</label><br>
-            <input type="radio" id="male" name="gender" value="male" required>
+            <input type="radio" id="male" name="Gender" value="male" required>
             <label for="gender">Male</label><br>
-            <input type="radio" id="female" name="gender" value="female" required>
+            <input type="radio" id="female" name="Gender" value="female" required>
             <label for="gender">Female</label><br><br>
             
             
             <label for="skills">Skills:</label><br>
-            <input type="checkbox" id="html" name="coding_language" value="HTML">
+            <input type="checkbox" id="html" name="Coding Language" value="HTML">
             <label for="html">HTML</label><br>
-            <input type="checkbox" id="css" name="coding_language" value="CSS">
+            <input type="checkbox" id="css" name="Coding Language" value="CSS">
             <label for="css">CSS</label><br>
-            <input type="checkbox" id="javascript" name="coding_language" value="JavaScript">
+            <input type="checkbox" id="javascript" name="Coding Language" value="JavaScript">
             <label for="javascript">JavaScript</label><br>
-            <input type="checkbox" id="python" name="coding_language" value="python">
+            <input type="checkbox" id="python" name="Coding Language" value="python">
             <label for="python">Python</label><br>
-            <input type="checkbox" id="other" name="coding_language" value="other">
+            <input type="checkbox" id="other" name="Coding Language" value="other">
             <label for="other">Other</label><br>
             <label for="other_skills">If you selected other please mention them:</label><br>
-            <input type="text" id="other_skills" name="other_skills">
+            <input type="text" id="other_skills" name="Other Skills">
         </section>
 
         <section>
             <!-- Country Selection Section -->
             <label for="countries">Country:</label><br>
-            <input list="countries" checked>
-            <datalist id="countries">
-                <option value="Egypt">
-                <option value="United States">
-                <option value="Canada">
-                <option value="Germany">
-                <option value="France">
-                <option value="Italy">
-                <option value="Japan">
-                <option value="India">
-                <option value="Australia">
-                <option value="Brazil">
-            </datalist>
+            <!-- <input list="countries" name="countries" > -->
+            <select style="width: 200px;" id="countries" name="Country" required>
+                <option value="Egypt">Egypt</option>
+                <option value="United States">USA</option>
+                <option value="Canada">Canada</option>
+                <option value="Germany">Germany</option>
+                <option value="France">France</option>
+                <option value="Italy">Italy</option>
+                <option value="Japan">Japan</option>
+                <option value="India">India</option>
+                <option value="Australia">Australia</option>
+                <option value="Brazil">Brazil</option>
+            </select>
         </section>
         <section>
             <!-- File Upload section -->
-            <input type="file" id="profile_pic" name="profile_pic" accept="image/*">
+            <label for="profile_pic">Upload Profile Picture:</label>
+            <input type="file" id="profile_pic" name="Photo" accept="image/*" required>
+            <input type="hidden" name="image" id="imageData">
         </section>
 
         <section>
             <!-- Submit Section -->
-            <input type="submit" value="Submit">
+            <input type="submit" value="Submit" onclick="convertAndAppend(event)">
         </section>
     </form>
+
+    <script>
+        function convertAndAppend() {
+            event.preventDefault();
+            const fileInput = document.getElementById('profile_pic').files[0];
+
+            const reader = new FileReader();
+            reader.readAsDataURL(fileInput); // Convert image to Base64
+
+            reader.onload = function (event) {
+                const base64String = encodeURIComponent(event.target.result);
+                document.getElementById("imageData").value = base64String; // Store in hidden field
+                document.getElementById("myForm").submit();
+        }}
+    </script>
 
 </body>
 </html>
