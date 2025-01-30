@@ -21,6 +21,16 @@
             border-radius: 8px;
             box-shadow: 0 2px 8px grey;
         }
+
+        p {
+            text-align: center;
+            font-weight: bold;
+            
+        }
+
+        #profilepic {
+            width: 300px;
+        }
     </style>
 </head>
 <body>
@@ -39,7 +49,9 @@
                 const img = document.createElement("img"); //new element for img
                 img.src = decodeURIComponent(value); // decodes the img and adds it to the element
                 img.alt = "Uploaded Photo";
+                img.id ="profilepic"
                 userData.appendChild(img);; //add the element to the div with id userdata
+
                 }
             else {
                 const data = document.createElement("p"); // new element
