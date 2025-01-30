@@ -28,23 +28,23 @@
     <div class="container" id="userData"></div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-        const params = new URLSearchParams(window.location.search);
-        const userData = document.getElementById("userData");
+    document.addEventListener("DOMContentLoaded", () => { //ensures that the page is loaded
+        const params = new URLSearchParams(window.location.search); //gets the parameters from url after ? and puts them in array
+        const userData = document.getElementById("userData"); //points to div with id userdata
 
         
-        params.forEach((value, key) => {
+        params.forEach((value, key) => { //loops on each value and key in params array
            
-            if (key === "image") {
-                const imge = document.createElement("img");
-                imge.src = decodeURIComponent(value);
-                imge.alt = "Uploaded Photo";
-                userData.appendChild(imge);;
+            if (key === "image") { //searches for the encoded img
+                const img = document.createElement("img"); //new element for img
+                img.src = decodeURIComponent(value); // decodes the img and adds it to the element
+                img.alt = "Uploaded Photo";
+                userData.appendChild(img);; //add the element to the div with id userdata
                 }
             else {
-                const p = document.createElement("p");
-                p.textContent = `${key}: ${value}`; 
-                userData.appendChild(p);
+                const data = document.createElement("p"); // new element
+                data.textContent = `${key}: ${value}`; //adds the text to the element
+                userData.appendChild(data); //add the element to th div with id userdata
             }
         
         });
