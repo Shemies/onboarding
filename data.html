@@ -8,18 +8,18 @@
         body {
             font-family: Arial, sans-serif;
             padding: 20px;
-            background-color: white;
+            background-color: black;
         }
         h1 {
             text-align: center;
+            color: white;
         }
         .container {
             max-width: 500px;
             margin: auto;
             background: white;
-            padding: 20px;
             border-radius: 8px;
-            box-shadow: 0 2px 8px grey;
+            box-shadow: 0 2px 8px white;
         }
 
         p {
@@ -29,7 +29,19 @@
         }
 
         #profilepic {
-            width: 300px;
+            width: 30px;
+        }
+        table {
+            width: 100%;
+            padding: 15px;
+        }
+        td{
+            min-width: 130px;
+            max-width: 130px;
+            padding-bottom: 10px;
+            padding-top: 10px;
+            word-wrap: break-word;
+            border-bottom: 1px solid grey;
         }
     </style>
 </head>
@@ -41,27 +53,45 @@
     document.addEventListener("DOMContentLoaded", () => { //ensures that the page is loaded
         const params = new URLSearchParams(window.location.search); //gets the parameters from url after ? and puts them in array
         const userData = document.getElementById("userData"); //points to div with id userdata
+        const table = document.createElement("table");
+        
 
         
         params.forEach((value, key) => { //loops on each value and key in params array
-           
+        const tablerow = document.createElement("tr");
+        
             if (key === "image") { //searches for the encoded img
                 const img = document.createElement("img"); //new element for img
                 img.src = decodeURIComponent(value); // decodes the img and adds it to the element
                 img.alt = "Uploaded Photo";
-                img.id ="profilepic"
-                userData.appendChild(img);; //add the element to the div with id userdata
+                img.id ="profilepic";
+                const tabledata = document.createElement("td");
+                const cellhead = document.createTextNode(`Profile Pic`);
+                const tabledatah = document.createElement("td");
+                tabledatah.appendChild(cellhead);
+                tabledata.appendChild(img);//add the element to the div with id userdata
+                tablerow.appendChild(tabledatah);
+                tablerow.appendChild(tabledata);
+
 
                 }
             else {
-                const data = document.createElement("p"); // new element
-                data.textContent = `${key}: ${value}`; //adds the text to the element
-                userData.appendChild(data); //add the element to th div with id userdata
+                const cellhead = document.createTextNode(`${key}`);
+                const celldata = document.createTextNode(`${value}`);
+                const tabledatah = document.createElement("td");
+                const tabledata = document.createElement("td");
+                tabledata.appendChild(celldata); //add the element to th div with id userdata
+                tabledatah.appendChild(cellhead);
+                tablerow.appendChild(tabledatah);
+                tablerow.appendChild(tabledata);
+
             }
+            table.appendChild(tablerow);
         
         });
-});
+        userData.appendChild(table)
 
+    });
     </script>
 </body>
 </html>
