@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0">
+    <title>Document</title>
+    <style>
+        body {
+            font-family: Arial;
+            padding: 20px;
+           /* background-color: black;*/
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: white;
+        }
+        form {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px white
+        }
+        section {
+            margin-bottom: 15px;
+        }
+        label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        input[type="text"], input[type="email"], input[type="date"],input[type="number"], select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid grey;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        input[type="radio"], input[type="checkbox"] {
+            margin-right: 5px;
+        }
+
+        input[type="submit"] {
+            background-color: black;
+            color: white;
+            font-size: 16px;
+            border: none;
+            padding: 10px 15px;
+            cursor: pointer;
+            border-radius: 5px;
+            width: 100%;
+        }
+
+        table {
+            width: 100%;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+        td{
+            min-width: 130px;
+            max-width: 130px;
+            padding: 10px 0px;
+            word-wrap: break-word;
+            margin: auto;
+            box-sizing: border-box;
+            text-align: center;
+        }
+        tr:nth-child(even) {background-color: #f2f2f2;}
+
+    </style>
+</head>
+<body>
+
+    <h1>User Registration</h1>
+        
+    <form  id="myForm">
+        <section>
+            <!-- Basic Information Section -->
+            <label for="name">Full Name</label><br>
+            <input type="text" id="name" name="Name" required placeholder="Jon Smith"   ><br>
+            <label for="email">Email</label><br>
+            <input type="email" id="email" name="Email" required placeholder="user@example.com"><br>
+            <label for="registerationDate">Date of Registration</label><br>
+            <input type="date" id="registerationDate" name="Date of Registration" max="2020-01-01" min="1990-01-01" required><br>
+            <label for="age" >Age</label><br>
+            <input type="number" id="age" name="Age" required><br>
+        </section>
+
+        <section>
+            <!-- Submit Section -->
+            <input type="submit" value="Submit">
+        </section>
+    </form>
+
+    <section>
+        <div >
+            <table id="usersData">
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Date</th>
+                    <th>age</th>
+                </tr>
+            </table>
+
+        </div>
+    </section>
+
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            document.getElementById("myForm").addEventListener("submit", function(event) {
+                event.preventDefault(); // Prevents form from reloading the page
+
+                // Capture input values
+                const name = document.getElementById("name").value;
+                const email = document.getElementById("email").value;
+                const date = document.getElementById("registerationDate").value;
+                const age = document.getElementById("age").value;
+
+                // Create a new table row
+                const userData = document.getElementById("usersData");
+                const newRow = document.createElement("tr");
+
+                // Append data cells to the row
+                [name, email, date, age].forEach(value => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value;
+                    newRow.appendChild(cell);
+                });
+
+                // Append the new row to the table
+                userData.appendChild(newRow);
+
+                // Clear input fields after submission
+                document.getElementById("myForm").reset();
+            });
+        });
+
+        </script>
+    
+</body>
+</html>
