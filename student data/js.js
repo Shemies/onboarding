@@ -1,5 +1,6 @@
 document.addEventListener("DOMContentLoaded", () => {
     const userDataTable = document.getElementById("usersData"); //points on table
+    let indexToEdit = null;
 
     // load stored data from localStorage
     function loadStoredData() {
@@ -13,8 +14,9 @@ document.addEventListener("DOMContentLoaded", () => {
                     <th>Age</th>
                     <th colspan="2">Actions </th>
                 </tr>`; // Reset the table header
-        storedUsers.forEach(user => addUserRow(user));
-    }
+                storedUsers.forEach((user, index) => addUserRow(user, index));
+                
+            }
 
     // Function to add a row to the table
     function addUserRow(user, index) { //attr user and index
@@ -25,23 +27,25 @@ document.addEventListener("DOMContentLoaded", () => {
             newRow.appendChild(cell);
         });
         //add delete button to each row
-        const cell = document.createElement("td");
-        cell.innerHTML = `<img src="delete.png">`;
-        newRow.appendChild(cell);
-        cell.setAttribute("data-index", index); //adds attribute to save the index number of row
+        const deletecell = document.createElement("td");
+        deletecell.innerHTML = `<img src="delete.png">`;
+        newRow.appendChild(deletecell);
+        deletecell.setAttribute("data-index", index); //adds attribute to save the index number of row
 
-        cell.addEventListener("click", (event) => {
-            const indexToDelete = event.target.getAttribute("data-index"); //retrieving the index from html att (event.target: This refers to the DOM element that triggered the event)
-            cell(indexToDelete); // Delete row function from table and localStorage
+        deletecell.addEventListener("click", (event) => {
+            const indexToDelete = event.target.parentElement.getAttribute("data-index"); //retrieving the index from html att (event.target: This refers to the DOM element that triggered the event)
+            deleteRow(indexToDelete); // Delete row function from table and localStorage
         });
-        const cell2 = document.createElement("td");
-        cell2.innerHTML = `<img src="edit.png">`;
-        newRow.appendChild(cell2);
-        cell2.setAttribute("data-index", index); //adds attribute to save the index number of row
 
-        cell2.addEventListener("click", (event) => {
-            const indexToDelete = event.target.getAttribute("data-index"); //retrieving the index from html att (event.target: This refers to the DOM element that triggered the event)
-            cell2(indexToDelete); // Delete row function from table and localStorage
+        let indexToEdit = null;
+        const editcell = document.createElement("td");
+        editcell.innerHTML = `<img src="edit.png">`;
+        newRow.appendChild(editcell);
+        editcell.setAttribute("data-index", index); //adds attribute to save the index number of row
+
+        editcell.addEventListener("click", (event) => {
+            const indexToEdit = event.target.parentElement.getAttribute("data-index"); //retrieving the index from html att (event.target: This refers to the DOM element that triggered the event)
+            editRow(indexToEdit); // Delete row function from table and localStorage
         });
         userDataTable.appendChild(newRow);
     }
@@ -60,40 +64,43 @@ document.addEventListener("DOMContentLoaded", () => {
 
         // Check for uniqueness of name and email 
         const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
-        const isNameDuplicate = storedUsers.some(user => user.name === name);
-        const isEmailDuplicate = storedUsers.some(user => user.email === email);
 
-        // Get warning elements
-        const nameWarning = document.getElementById("nameWarning");
-        const emailWarning = document.getElementById("emailWarning");
+        if (indexToEdit !== null) {
+            storedUsers[indexToEdit] = { name, email, date, age };
+            indexToEdit = null; // Reset edit index
+        } else {
+            // Check for uniqueness of name and email 
+            const isNameDuplicate = storedUsers.some(user => user.name === name);
+            const isEmailDuplicate = storedUsers.some(user => user.email === email);
 
-        // Reset warnings
-        nameWarning.textContent = '';
-        emailWarning.textContent = '';
+            const nameWarning = document.getElementById("nameWarning");
+            const emailWarning = document.getElementById("emailWarning");
 
-        if (isNameDuplicate) {
-             // Show the name warning
-            nameWarning.textContent = "User with this name already exists!";
-            return; // Prevent form submission
+            nameWarning.textContent = '';
+            emailWarning.textContent = '';
+
+            if (isNameDuplicate) {
+                nameWarning.textContent = "User with this name already exists!";
+                return;
+            }
+            if (isEmailDuplicate) {
+                emailWarning.textContent = "User with this email already exists!";
+                return;
+            }
+
+            // Create new user object
+            storedUsers.push({ name, email, date, age });
         }
-        if (isEmailDuplicate) {
-             // Show the email warning
-            emailWarning.textContent = "User with this email already exists!";
-            return; // Prevent form submission
-        }
 
-        // Create user object
-        const user = { name, email, date, age };
-
-        // Store the user in localStorage
-        storedUsers.push(user);
+        // Store updated users list
         localStorage.setItem("users", JSON.stringify(storedUsers));
 
-        // Add user to table
-        addUserRow(user, storedUsers.length - 1);
+        // Reload the table
+        loadStoredData();
 
-        // Clear input fields after submission
+        // Reset form fields and button text
         document.getElementById("myForm").reset();
+        document.getElementById("submit").textContent = "Submit";
     });
 
     function deleteRow(index){
@@ -102,6 +109,22 @@ document.addEventListener("DOMContentLoaded", () => {
         localStorage.setItem("users", JSON.stringify(storedUsers)); // Update localStorage
         loadStoredData();
     }
+    // Function to edit a row
+    function editRow(index) {
+        const storedUsers = JSON.parse(localStorage.getItem("users")) || [];
+        const user = storedUsers[index];
 
-    
+        // Populate the form fields with the existing data
+        document.getElementById("name").value = user.name;
+        document.getElementById("email").value = user.email;
+        document.getElementById("registerationDate").value = user.date;
+        document.getElementById("age").value = user.age;
+
+        // Store index to update on form submission
+        indexToEdit = index;
+
+        // Change the submit button text to "Update"
+        document.getElementById("submit").textContent = "Update";
+    }
+
 });
