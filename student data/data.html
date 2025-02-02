@@ -59,6 +59,10 @@
             padding: 15px;
             box-sizing: border-box;
             table-layout: fixed;
+            border-collapse: collapse;
+        }
+        th {
+            text-align: center;
         }
         td{
             padding: 10px 0px;
@@ -66,7 +70,7 @@
             margin: auto;
             box-sizing: border-box;
             text-align: center;
-            width: 25%;
+            width: 20%;
         }
         tr:nth-child(even) {background-color: #f2f2f2;}
 
@@ -78,24 +82,45 @@
             box-shadow: 0 4px 10px white;
             margin-top: 50px;
         }
+        .warning {
+            color: red;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        button{
+            width: 100%;
+            height: 100%;
+            padding: 10px 15px;
+            margin-top: 20px;
+            background-color: red;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            margin: auto;
+        }
 
     </style>
 </head>
 <body>
 
+    <script src="js.js"></script>
     <h1>Student Registration</h1>
         
     <form  id="myForm">
         <section>
             <!-- Basic Information Section -->
             <label for="name">Full Name</label><br>
-            <input type="text" id="name" name="Name" required placeholder="Jon Smith"   ><br>
+            <input type="text" id="name" name="Name" required placeholder="Jon Smith">
+            <span id="nameWarning" class="warning"></span><br>
             <label for="email">Email</label><br>
-            <input type="email" id="email" name="Email" required placeholder="user@example.com"><br>
+            <input type="email" id="email" name="Email" required placeholder="user@example.com">
+            <span id="emailWarning" class="warning"></span><br>
             <label for="registerationDate">Date of Registration</label><br>
             <input type="date" id="registerationDate" name="Date of Registration" max="2020-01-01" min="1990-01-01" required><br>
             <label for="age" >Age</label><br>
-            <input type="number" id="age" name="Age" required min="22"><br>
+            <input type="number" id="age" name="Age" required min="22" max="70"><br>
         </section>
 
         <section>
@@ -106,50 +131,19 @@
 
     
     <div id="data">
-        <table id="usersData">
+        <table id="usersData"  >
             <tr>
+
                 <th>Name</th>
                 <th>Email</th>
                 <th>Date</th>
                 <th>Age</th>
+                <th colspan="2">Actions</th>
             </tr>
         </table>
 
     </div>
    
 
-
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            document.getElementById("myForm").addEventListener("submit", function(event) {
-                event.preventDefault(); // Prevents form from reloading the page
-
-                // Capture input values
-                const name = document.getElementById("name").value;
-                const email = document.getElementById("email").value;
-                const date = document.getElementById("registerationDate").value;
-                const age = document.getElementById("age").value;
-
-                // Create a new table row
-                const userData = document.getElementById("usersData");
-                const newRow = document.createElement("tr");
-
-                // Append data cells to the row
-                [name, email, date, age].forEach(value => {
-                    const cell = document.createElement("td");
-                    cell.textContent = value;
-                    newRow.appendChild(cell);
-                });
-
-                // Append the new row to the table
-                userData.appendChild(newRow);
-
-                // Clear input fields after submission
-                document.getElementById("myForm").reset();
-            });
-        });
-
-        </script>
-    
 </body>
 </html>
