@@ -26,26 +26,22 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         //add delete button to each row
         const cell = document.createElement("td");
-        const deleterow = document.createElement("button");
-        deleterow.textContent  = "Del"
-        cell.appendChild(deleterow);
+        cell.innerHTML = `<img src="delete.png">`;
         newRow.appendChild(cell);
-        deleterow.setAttribute("data-index", index); //adds attribute to save the index number of row
+        cell.setAttribute("data-index", index); //adds attribute to save the index number of row
 
-        deleterow.addEventListener("click", (event) => {
+        cell.addEventListener("click", (event) => {
             const indexToDelete = event.target.getAttribute("data-index"); //retrieving the index from html att (event.target: This refers to the DOM element that triggered the event)
-            deleteRow(indexToDelete); // Delete row function from table and localStorage
+            cell(indexToDelete); // Delete row function from table and localStorage
         });
         const cell2 = document.createElement("td");
-        const edit = document.createElement("button");
-        edit.textContent  = "edit"
-        cell2.appendChild(edit);
+        cell2.innerHTML = `<img src="edit.png">`;
         newRow.appendChild(cell2);
-        edit.setAttribute("data-index", index); //adds attribute to save the index number of row
+        cell2.setAttribute("data-index", index); //adds attribute to save the index number of row
 
-        deleterow.addEventListener("click", (event) => {
+        cell2.addEventListener("click", (event) => {
             const indexToDelete = event.target.getAttribute("data-index"); //retrieving the index from html att (event.target: This refers to the DOM element that triggered the event)
-            deleteRow(indexToDelete); // Delete row function from table and localStorage
+            cell2(indexToDelete); // Delete row function from table and localStorage
         });
         userDataTable.appendChild(newRow);
     }
