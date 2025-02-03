@@ -20,8 +20,10 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Function to add a row to the table
     function addUserRow(user, index) { //attr user and index
+        const date = new Date(user.date); // convert the date string to Date object
+        const formattedDate = `${date.getDate()} ${date.toLocaleString('en', { month: 'short' })}, ${date.getFullYear()}`;
         const newRow = document.createElement("tr"); 
-        [user.name, user.email, user.date, user.age].forEach(value => {
+        [user.name, user.email, formattedDate, user.age].forEach(value => {
             const cell = document.createElement("td");
             cell.textContent = value;
             newRow.appendChild(cell);
