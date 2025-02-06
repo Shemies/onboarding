@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Product</title>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="text-center text-white flex flex justify-center items-center">
+        <h1 class="p-16 font-semibold text-4xl ">Product Details</h1>
+    </div>
+    <div class="flex text-center p-px bg-gray-900 text-white justify-center m-5">
+        <a href="index.html" class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Men</a>
+        <a href="index.html" class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Women</a>
+        <a href="index.html" class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Kids</a>
+        <a href="index.html" class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Babies</a>
+    </div>
+    <div id="product-details" class="justify-center items-center bg-white text-black p-6 rounded-lg shadow-lg text-center grid lg:grid-cols-2 md:grid-cols-2 sm:grid-cols-1 mx-10">
+        <div class="flex"><img id="image"></div>
+        <div class="justify-center">
+            <p id="name" class="text-4xl mb-10"></p>
+            <p class="text-2xl mb-10 text-gray-400">Super very Super Soft Extra V-Neck Extra Sweater</p>
+            <p id="price" class="text-2xl mb-10 text-red-700"></p>
+            <a class="flex justify-center bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-600 mb-5">Add to Cart</a>
+            <a href="index.html" class="flex justify-center bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-600">Back to Shop</a>
+        </div>
+    </div>
+
+
+    <script>
+        function getQueryparams(){
+            const params =new URLSearchParams(window.location.search) ;
+            return {
+                name: params.get("name"),
+                img: params.get("img"),
+                price: params.get("price")
+            }
+        }
+
+        function displayProduct(){
+            const product = getQueryparams();
+            const image = document.getElementById("image");
+            const proprice = document.getElementById("price");
+            const proname = document.getElementById("name");
+            image.src = decodeURIComponent(product.img);
+            proname.innerHTML = `Name: ${product.name}`;
+            proprice.innerHTML = `Price: ${product.price}`;
+
+        }
+
+        displayProduct();
+    </script>
+    
+</body>
+</html>

@@ -140,18 +140,25 @@ button:hover {
 
 </style>
 <body>
+  <head><meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css.css" rel="stylesheet">
+  </head>
+    <body>
     <script src="js.js"></script>
     <!-- Header -->
     <div class="header">
         <h1>Shop our Products</h1>
     </div>
     
+
     <!-- Navigation Bar -->
     <div class="navbar">
         <a href="#">Link</a>
         <a href="#">Link</a>
         <a href="#">Link</a>
         <a href="#">Link</a>
+
     </div>
 
     <!-- Search Bar -->
@@ -159,9 +166,9 @@ button:hover {
         <label>Search</label>
         <input type="search" id="search" onkeyup="filterProducts()" >
         <button onclick="sortProductsByPrice()">Sort by Price</button>
-
-    </div>
+      </div>
     
+
     <!-- The flexible grid (content) -->
     <div class="row" id="product-container">
         
@@ -174,5 +181,4 @@ button:hover {
   
   </body>
 </html>
-
 

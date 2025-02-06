@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Shop Products</title>
+</head>
+<body class="bg-gray-900 box-border ">
+    <script src="js.js"></script>
+    <div class="text-center text-white flex flex justify-center items-center">
+        <h1 class="p-16 font-semibold text-4xl ">Shop Our Products</h1>
+    </div>
+    <div class="flex text-center p-px bg-gray-900 text-white justify-center">
+        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Men</a>
+        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Women</a>
+        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Kids</a>
+        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Babies</a>
+    </div>
+<!-- searchbar , label, input, button -->
+    <div class="flex bg-gray-900 justify-center text-white items-center p-4">
+        <input type="search" id="search" class= "text-black p-4 w-1/2 h-10 border-none rounded-3xl outline-none duration-300 bg-white" placeholder="Search" onkeyup="filterProducts()">
+        <button class="px-4 py-2 bg-gray-500 border-none rounded-3xl cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black m-4" onclick="sortProductsByPrice()">Sort by Price</button>
+    </div>
+
+    <div id="product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6"></div>
+</body>
+</html>
