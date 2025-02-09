@@ -3,33 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
     <title>Shop Products</title>
 </head>
-<body class="bg-gray-900 box-border ">
-    <div class="text-center text-white flex flex justify-center items-center">
-        <h1 class="p-16 font-semibold text-4xl ">Shop Our Products</h1>
+<body class="bg-gray-900 box-border">
+    <div class="text-center text-white flex justify-center items-center">
+        <a class="p-16 font-semibold text-4xl" href="nav.html">Shop Our Products</a>
     </div>
-    <div class="flex text-center p-px bg-gray-900 text-white justify-center">
-        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Men</a>
-        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Women</a>
-        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Kids</a>
-        <a class="text-center rounded-md transition px-8 hover:bg-white hover:text-black">Babies</a>
+
+    <!-- Category Filter -->
+    <div class="flex text-center p-2 bg-gray-900 text-white justify-center space-x-4">
+        <button onclick="filterByCategory('Tops')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">Tops</button>
+        <button onclick="filterByCategory('Pants')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">Pants</button>
+        <button onclick="filterByCategory('All')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">View All</button>
     </div>
-<!-- searchbar , label, input, button -->
+
+    <!-- Search Bar & Sort -->
     <div class="flex bg-gray-900 justify-center text-white items-center p-4">
-        <input type="search" id="search" class= "text-black p-4 w-1/2 h-10 border-none rounded-3xl outline-none duration-300 bg-white" placeholder="Search" onkeyup="filterProducts()">
-        <button class="px-4 py-2 bg-gray-500 border-none rounded-3xl cursor-pointer transition-colors duration-300 hover:bg-white hover:text-black m-4" onclick="sortProductsByPrice()">Sort by Price</button>
+        <input type="search" id="search" class="text-black p-4 w-1/2 h-10 border-none rounded-3xl outline-none bg-white" placeholder="Search" onkeyup="filterProducts()">
+        <button class="px-4 py-2 bg-gray-500 border-none rounded-3xl cursor-pointer transition hover:bg-white hover:text-black m-4" onclick="sortProductsByPrice()">Sort by Price</button>
     </div>
 
-    <div id="product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6">
+    <!-- Product Container -->
+    <div id="product-container" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 p-6"></div>
 
-    </div>
-    <div class="flex justify-center ">
-        <button id="prevBtn" class="rounded-lg p-2 m-2 bg-gray-500 text-white cursor-pointer hover:bg-white hover:text-black ">Prev</button>
-        <div id="pagintation" class="flex"></div>
+    <!-- Pagination -->
+    <div class="flex justify-center">
+        <button id="prevBtn" class="rounded-lg p-2 m-2 bg-gray-500 text-white cursor-pointer hover:bg-white hover:text-black">Prev</button>
+        <div id="pagination" class="flex"></div>
         <button id="nextBtn" class="rounded-lg p-2 m-2 bg-gray-500 text-white cursor-pointer hover:bg-white hover:text-black">Next</button>
     </div>
+
     <script src="js.js"></script>
 </body>
 </html>
