@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6 flex justify-center">
+
+    <div class="mx-10 w-full bg-white p-6 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-4 text-center">Product List</h2>
+
+        <!-- add/edit/delete product -->
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow">
+            <h3 id="form-title" class="text-lg font-semibold mb-2">Add New Product</h3>
+            <div class="flex flex-col sm:flex-row gap-2">
+                <input id="product-name" type="text" placeholder="Product Name" class="border p-2 rounded w-full">
+                <input id="product-price" type="text" placeholder="Price ($)" class="border p-2 rounded w-full">
+            </div>
+            <input id="product-img" type="file" accept="image/*" class="border p-2 rounded w-full mt-2">
+            <button id="form-button" onclick="addOrUpdateProduct()" class="mt-3 bg-blue-500 text-white px-4 py-2 rounded w-full hover:bg-blue-700 transition">
+                Add Product
+            </button>
+            <input type="hidden" id="edit-index" value="">
+        </div>
+
+        <!-- products -->
+        <ul id="product-list" class="space-y-3">
+        </ul>
+    </div>
+
+    <script>
+        let products = JSON.parse(localStorage.getItem("products")) || []; //gets products from local storage
+
+        function saveToLocalStorage() {
+            localStorage.setItem("products", JSON.stringify(products));
+        }
+
+        function renderProducts() {
+            const list = document.getElementById("product-list");
+            list.innerHTML = ""; // clear existing list
+
+            products.forEach((product, index) => {
+                const li = document.createElement("li");
+                li.className = "flex items-center justify-between bg-gray-200 p-3 rounded-lg shadow";
+                
+                li.innerHTML = `
+                    <div class="flex items-center gap-3">
+                        <img src="${product.img}" alt="Product Image" class="w-14 h-14 object-cover rounded-lg">
+                        <div>
+                            <p class="font-bold">${product.name}</p>
+                            <p class="text-gray-600">${product.price}</p>
+                        </div>
+                    </div>
+                    <div class="flex gap-2">
+                        <button onclick="editProduct(${index})"
+                            class="bg-yellow-500 text-white px-3 py-1 rounded hover:bg-yellow-700 transition">Edit</button>
+                        <button onclick="deleteProduct(${index})"
+                            class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-700 transition">Delete</button>
+                    </div>
+                `;
+                list.appendChild(li);
+            });
+        }
+
+        function addOrUpdateProduct() {
+            const nameInput = document.getElementById("product-name");
+            const priceInput = document.getElementById("product-price");
+            const imgInput = document.getElementById("product-img");
+            const editIndex = document.getElementById("edit-index").value;
+
+            const name = nameInput.value.trim();
+            const price = priceInput.value.trim();
+            const imageFile = imgInput.files[0];
+
+            if (!name || !price || (!imageFile && editIndex === "")) {
+                alert("Please enter all details.");
+                return;
+            }
+
+            if (imageFile) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    const imageURL = e.target.result;
+                    if (editIndex === "") {
+                        products.push({ name, price, img: imageURL });
+                    } else {
+                        products[editIndex] = { name, price, img: imageURL };
+                    }
+                    saveToLocalStorage();
+                    renderProducts();
+                    resetForm();
+                };
+                reader.readAsDataURL(imageFile);
+            } else {
+                products[editIndex] = { ...products[editIndex], name, price };
+                saveToLocalStorage();
+                renderProducts();
+                resetForm();
+            }
+        }
+
+        function editProduct(index) {
+            const product = products[index];
+            document.getElementById("product-name").value = product.name;
+            document.getElementById("product-price").value = product.price;
+            document.getElementById("edit-index").value = index;
+            document.getElementById("form-title").textContent = "Edit Product";
+            document.getElementById("form-button").textContent = "Update Product";
+            document.getElementById("form-button").classList.replace("bg-blue-500", "bg-green-500");
+            document.getElementById("form-button").classList.replace("hover:bg-blue-700", "hover:bg-green-700");
+        }
+
+        function deleteProduct(index) {
+            if (confirm("Are you sure you want to delete this product?")) {
+                products.splice(index, 1);
+                saveToLocalStorage();
+                renderProducts();
+                resetForm();
+            }
+        }
+
+        function resetForm() {
+            document.getElementById("product-name").value = "";
+            document.getElementById("product-price").value = "";
+            document.getElementById("product-img").value = "";
+            document.getElementById("edit-index").value = "";
+            document.getElementById("form-title").textContent = "Add New Product";
+            document.getElementById("form-button").textContent = "Add Product";
+            document.getElementById("form-button").classList.replace("bg-green-500", "bg-blue-500");
+            document.getElementById("form-button").classList.replace("hover:bg-green-700", "hover:bg-blue-700");
+        }
+
+        // load from local storagee
+        renderProducts();
+    </script>
+
+</body>
+</html>
