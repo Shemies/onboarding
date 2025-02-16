@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Earth Sprite Rotation (Bigger Window)</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Centered Sprite Container (Bigger Window) */
+        .sprite-container {
+            width: 144px;  /* Enlarged 3× (48px * 3) */
+            height: 144px; /* Enlarged 3× (48px * 3) */
+            overflow: hidden;
+            border: 2px solid black;
+            margin: 100px auto;
+            cursor: grab;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('earthspin-sheet.png') no-repeat;
+            background-size: 1440px 1440px; /* Full sprite sheet enlarged 3× (480px * 3) */
+            image-rendering: pixelated; /* Keep pixel sharpness */
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Sprite Display -->
+    <div class="sprite-container" id="spriteContainer"></div>
+
+    <script>
+        let frameIndex = 0;
+        const frameSize = 144;  // Each frame is  144x144
+        const columns = 10;      // Number of frames per row
+        const totalFrames = 94;  // Total frames in the sheet
+        let isDragging = false;
+        let startX = 0;
+
+        const container = document.getElementById("spriteContainer");
+
+        // Function to update background position based on frame index
+        function updateSprite() {
+            let frameX = (frameIndex % columns) * frameSize; // Column position
+            let frameY = Math.floor(frameIndex / columns) * frameSize; // Row position
+            container.style.backgroundPosition = `-${frameX}px -${frameY}px`;
+        }
+
+        // Mouse Down (Start Drag)
+        container.addEventListener("mousedown", (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            container.style.cursor = "grabbing";
+        });
+
+        // Mouse Move (Rotate Sprite)
+        document.addEventListener("mousemove", (e) => {
+            if (!isDragging) return;
+
+            let diff = e.clientX - startX;
+            if (Math.abs(diff) > 5) { // Adjust sensitivity
+                if (diff > 0) {
+                    frameIndex = (frameIndex + 1) % totalFrames; // Rotate Right
+                } else {
+                    frameIndex = (frameIndex - 1 + totalFrames) % totalFrames; // Rotate Left
+                }
+                updateSprite();
+                startX = e.clientX; // Reset start position
+            }
+        });
+
+        // Mouse Up (Stop Dragging)
+        document.addEventListener("mouseup", () => {
+            isDragging = false;
+            container.style.cursor = "grab";
+        });
+
+        // Initialize position
+        updateSprite();
+    </script>
+
+</body>
+</html>

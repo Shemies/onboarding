@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3D Rotating Cube</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    /* Custom styles for 3D perspective */
+    .perspective {
+      perspective: 1000px;
+    }
+
+    .cube {
+      transform-style: preserve-3d;
+      transition: transform 0.1s ease-out;
+    }
+
+    .cube-face {
+      position: absolute;
+      width: 100px;
+      height: 100px;
+      background: rgba(0, 0, 0, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: white;
+    }
+  </style>
+</head>
+<body class="flex items-center justify-center min-h-screen bg-gray-900 text-white">
+
+  <!-- 3D Perspective Container -->
+  <div class="perspective w-64 h-64">
+    <!-- Cube -->
+    <div id="cube" class="cube w-24 h-24">
+      <!-- Faces of the cube -->
+      <div class="cube-face bg-red-500" style="transform: rotateY(0deg) translateZ(50px);">1</div>
+      <div class="cube-face bg-green-500" style="transform: rotateY(90deg) translateZ(50px);">2</div>
+      <div class="cube-face bg-blue-500" style="transform: rotateY(180deg) translateZ(50px);">3</div>
+      <div class="cube-face bg-yellow-500" style="transform: rotateY(-90deg) translateZ(50px);">4</div>
+      <div class="cube-face bg-purple-500" style="transform: rotateX(90deg) translateZ(50px);">5</div>
+      <div class="cube-face bg-pink-500" style="transform: rotateX(-90deg) translateZ(50px);">6</div>
+    </div>
+  </div>
+
+  <script>
+    const cube = document.getElementById('cube');
+    let isMouseDown = false;
+    let lastMouseX = 0;
+    let lastMouseY = 0;
+    let rotationX = 0;
+    let rotationY = 0;
+
+    document.addEventListener('mousedown', (event) => {
+      isMouseDown = true;
+      lastMouseX = event.clientX;
+      lastMouseY = event.clientY;
+    });
+
+    document.addEventListener('mouseup', () => {
+      isMouseDown = false;
+    });
+
+    document.addEventListener('mousemove', (event) => {
+      if (!isMouseDown) return;
+
+      const deltaX = event.clientX - lastMouseX;
+      const deltaY = event.clientY - lastMouseY;
+
+      rotationY += deltaX * 0.5; // Rotate horizontally
+      rotationX -= deltaY * 0.5; // Rotate vertically
+
+      cube.style.transform = `rotateX(${rotationX}deg) rotateY(${rotationY}deg)`;
+
+      lastMouseX = event.clientX;
+      lastMouseY = event.clientY;
+    });
+  </script>
+
+</body>
+</html>

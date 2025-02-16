@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translate Image Horizontally</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href=".bstyle.css">
+
+</head>
+<body>
+    <div>
+        <button class="btn left" onclick="changePosition(-500)">Move Left</button>
+        <button class="btn right" onclick="changePosition(500)">Move Right</button>
+    </div>
+    <div class="banner">
+        <div class="product">
+            <div class="soda"></div>
+        </div>
+    </div>
+
+    <script>
+        let ori =0;
+        function changePosition(value) {
+            ori = ori +value;
+            document.documentElement.style.setProperty('--left', `${ori}px`);
+        }
+    </script>
+
+</body>
+</html>
