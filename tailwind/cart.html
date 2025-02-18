@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Cart</title>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="text-center flex justify-center items-center">
+        <h1 class="p-16 font-semibold text-4xl">Cart</h1>
+    </div>
+
+    <div id="cart-items" class="bg-white text-black p-6 rounded-lg shadow-lg mx-10">
+        <div class="text-center">
+            <h2 class="text-2xl mb-4">Your Cart</h2>
+            <div id="items-container" class="grid gap-6"></div>
+        </div>
+    </div>
+
+    <div id="cart-summary" class="bg-white text-black p-6 rounded-lg shadow-lg mx-10 mt-6">
+        <div class="text-center">
+            <h2 class="text-2xl mb-4">Order Summary</h2>
+            <p id="subtotal" class="text-lg font-semibold">Subtotal: $0.00</p>
+            <p id="delivery" class="text-lg font-semibold">Delivery: $5.00</p>
+            <p id="total" class="text-xl font-bold mt-2">Total: $0.00</p>
+        </div>
+    </div>
+
+    <div class="flex justify-center mt-10 gap-4">
+        <a href="index.html" class="bg-gray-800 text-white px-6 py-2 rounded-full hover:bg-gray-600">Back to Shop</a>
+        <button id="clear-cart" class="bg-red-600 text-white px-6 py-2 rounded-full hover:bg-red-400">Clear Cart</button>
+        <a href="checkout.html" class="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-400">Checkout</a>
+    </div>
+    
+
+    <script>
+        const DELIVERY_CHARGE = 5.00; // Flat delivery charge
+
+        function displayCart() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            const itemsContainer = document.getElementById("items-container");
+            itemsContainer.innerHTML = "";
+
+            if (cart.length === 0) {
+                itemsContainer.innerHTML = `<p class='text-center text-gray-500'>Your cart is empty.</p>`;
+                updateSummary(0);
+                return;
+            }
+
+            cart.forEach((item, index) => {
+                const itemElement = document.createElement("div");
+                itemElement.className = "flex items-center gap-4 p-4 bg-gray-100 rounded-md shadow-md";
+
+                itemElement.innerHTML = `
+                    <img src="${decodeURIComponent(item.img)}" alt="${item.name}" class="w-20 h-20 rounded-md">
+                    <div class="text-left">
+                        <p class="font-semibold text-lg">${item.name}</p>
+                        <p class="text-red-600 font-bold">${item.price}</p>
+                    </div>
+                    <div class="flex items-center gap-2 ml-auto">
+                        <button class="bg-gray-800 text-white px-2 py-1 rounded hover:bg-gray-600" onclick="decreaseQuantity(${index})">-</button>
+                        <p class="text-lg font-bold">${item.quantity}</p>
+                        <button class="bg-gray-800 text-white px-2 py-1 rounded hover:bg-gray-600" onclick="increaseQuantity(${index})">+</button>
+                    </div>
+                    <button class="bg-red-600 text-white px-4 py-2 rounded-md hover:bg-red-400 ml-4" onclick="removeFromCart(${index})">Remove</button>
+                `;
+
+                itemsContainer.appendChild(itemElement);
+            });
+
+            // Calculate and update summary
+            calculateSummary();
+        }
+
+        function calculateSummary() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let subtotal = 0;
+
+            // Calculate subtotal
+            cart.forEach(item => {
+                const price = parseFloat(item.price.replace(/[^0-9.-]+/g, "")); // Extract numeric value from price string
+                subtotal += price * item.quantity;
+            });
+
+            const total = subtotal + DELIVERY_CHARGE;
+
+            // Update the order summary
+            document.getElementById("subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+            document.getElementById("delivery").textContent = `Delivery: $${DELIVERY_CHARGE.toFixed(2)}`;
+            document.getElementById("total").textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        function increaseQuantity(index) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart[index].quantity += 1; // Increase the quantity
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart(); // Re-render the cart
+        }
+
+        function decreaseQuantity(index) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart[index].quantity > 1) {
+                cart[index].quantity -= 1; // Decrease the quantity
+            } else {
+                cart.splice(index, 1); // Remove the item if quantity reaches 0
+            }
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart(); // Re-render the cart
+        }
+
+        function removeFromCart(index) {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            cart.splice(index, 1);
+            localStorage.setItem("cart", JSON.stringify(cart));
+            displayCart();
+        }
+
+        function updateSummary(subtotal) {
+            document.getElementById("subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+            document.getElementById("delivery").textContent = `Delivery: $${DELIVERY_CHARGE.toFixed(2)}`;
+            document.getElementById("total").textContent = `Total: $${(subtotal + DELIVERY_CHARGE).toFixed(2)}`;
+        }
+
+        document.getElementById("clear-cart").addEventListener("click", () => {
+            localStorage.removeItem("cart");
+            displayCart();
+        });
+
+        // Initialize
+        displayCart();
+    </script>
+</body>
+</html>

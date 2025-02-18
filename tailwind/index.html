@@ -7,14 +7,27 @@
     <title>Shop Products</title>
 </head>
 <body class="bg-gray-900 box-border">
+    <!-- Cart Icon -->
+    <div class="absolute top-4 right-4">
+        <a href="cart.html" class="relative flex items-center">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-white hover:text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13l-1.2 6m0 0h12m-12 0a1 1 0 11-2 0m14 0a1 1 0 11-2 0" />
+            </svg>
+            <span id="cart-count" class="absolute -top-2 -right-2 bg-red-600 text-white text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">0</span>
+        </a>
+    </div>
+    
+    <!-- Page Heading -->
     <div class="text-center text-white flex justify-center items-center">
-        <a class="p-16 font-semibold text-4xl" href="nav.html">Shop Our Products</a>
+        <h1 class="p-16 font-semibold text-4xl">Shop Our Products</h1>
     </div>
 
     <!-- Category Filter -->
     <div class="flex text-center p-2 bg-gray-900 text-white justify-center space-x-4">
         <button onclick="filterByCategory('Tops')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">Tops</button>
         <button onclick="filterByCategory('Pants')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">Pants</button>
+        <button onclick="filterByCategory('Caps')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">Caps</button>
+        <button onclick="filterByCategory('Shoes')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">Shoes</button>
         <button onclick="filterByCategory('All')" class="rounded-md px-6 py-2 transition hover:bg-white hover:text-black">View All</button>
     </div>
 
@@ -34,6 +47,7 @@
         <button id="nextBtn" class="rounded-lg p-2 m-2 bg-gray-500 text-white cursor-pointer hover:bg-white hover:text-black">Next</button>
     </div>
 
+    <!-- Link JavaScript -->
     <script src="js.js"></script>
 </body>
 </html>

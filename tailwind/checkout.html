@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/@tailwindcss/browser@4"></script>
+    <title>Checkout</title>
+</head>
+<body class="bg-gray-900 text-white">
+    <div class="text-center flex justify-center items-center">
+        <h1 class="p-16 font-semibold text-4xl">Checkout</h1>
+    </div>
+
+    <div id="checkout-form" class="bg-white text-black p-6 rounded-lg shadow-lg mx-10">
+        <div class="text-center">
+            <h2 class="text-2xl mb-4">Confirm Your Order</h2>
+        </div>
+
+        <!-- Cart Summary -->
+        <div id="cart-summary" class="bg-gray-100 p-4 rounded-lg mb-6">
+            <h3 class="text-xl font-semibold mb-2">Order Summary</h3>
+            <p id="subtotal" class="text-lg">Subtotal: $0.00</p>
+            <p id="delivery" class="text-lg">Delivery: $5.00</p>
+            <p id="total" class="text-xl font-bold mt-2">Total: $0.00</p>
+        </div>
+
+        <!-- Delivery Details Form -->
+        <div class="mb-6">
+            <h3 class="text-xl font-semibold mb-2">Delivery Details</h3>
+            <form id="delivery-details">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700">Full Name:</label>
+                    <input type="text" id="name" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your full name" required>
+                </div>
+                <div class="mb-4">
+                    <label for="address" class="block text-gray-700">Address:</label>
+                    <textarea id="address" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your address" rows="3" required></textarea>
+                </div>
+                <div class="mb-4">
+                    <label for="phone" class="block text-gray-700">Phone Number:</label>
+                    <input type="text" id="phone" class="w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your phone number" required>
+                </div>
+            </form>
+        </div>
+
+        <!-- Place Order Button -->
+        <div class="flex justify-center">
+            <button id="place-order" class="bg-green-600 text-white px-6 py-3 rounded-full hover:bg-green-400">Place Order</button>
+        </div>
+    </div>
+
+    <script>
+        const DELIVERY_CHARGE = 5.00; // Flat delivery charge
+
+        function loadCartSummary() {
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            let subtotal = 0;
+
+            // Calculate subtotal
+            cart.forEach(item => {
+                const price = parseFloat(item.price.replace(/[^0-9.-]+/g, "")); // Extract numeric value from price string
+                subtotal += price * item.quantity;
+            });
+
+            const total = subtotal + DELIVERY_CHARGE;
+
+            // Update the summary details
+            document.getElementById("subtotal").textContent = `Subtotal: $${subtotal.toFixed(2)}`;
+            document.getElementById("delivery").textContent = `Delivery: $${DELIVERY_CHARGE.toFixed(2)}`;
+            document.getElementById("total").textContent = `Total: $${total.toFixed(2)}`;
+        }
+
+        function placeOrder() {
+            const name = document.getElementById("name").value.trim();
+            const address = document.getElementById("address").value.trim();
+            const phone = document.getElementById("phone").value.trim();
+
+            if (!name || !address || !phone) {
+                alert("Please fill in all delivery details!");
+                return;
+            }
+
+            const cart = JSON.parse(localStorage.getItem("cart")) || [];
+            if (cart.length === 0) {
+                alert("Your cart is empty. Add items to your cart before placing an order.");
+                return;
+            }
+
+            // Collect order details
+            const orderDetails = {
+                customer: { name, address, phone },
+                items: cart,
+                subtotal: parseFloat(document.getElementById("subtotal").textContent.replace(/[^0-9.-]+/g, "")),
+                delivery: DELIVERY_CHARGE,
+                total: parseFloat(document.getElementById("total").textContent.replace(/[^0-9.-]+/g, "")),
+                date: new Date().toLocaleString(),
+            };
+
+            // Save the order to localStorage (or send it to a server via an API call)
+            const orders = JSON.parse(localStorage.getItem("orders")) || [];
+            orders.push(orderDetails);
+            localStorage.setItem("orders", JSON.stringify(orders));
+
+            // Clear the cart
+            localStorage.removeItem("cart");
+
+            // Provide confirmation
+            alert("Order placed successfully! Thank you for your purchase.");
+            window.location.href = "index.html"; // Redirect to the shop or confirmation page
+        }
+
+        document.getElementById("place-order").addEventListener("click", placeOrder);
+
+        // Initialize
+        loadCartSummary();
+    </script>
+</body>
+</html>

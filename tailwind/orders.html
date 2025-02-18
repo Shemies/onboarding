@@ -50,7 +50,7 @@
     <!-- Products Section -->
     <div id="products-section" class="hidden m-7 text-black">
         <h2 class="text-2xl font-semibold mb-4 text-white">Products</h2>
-        <div class="mb-6 p-4 bg-gray-200 rounded-lg shadow">
+        <div class="mb-6 p-4 bg-gray-50 rounded-lg shadow">
             <h3 id="form-title" class="text-lg font-semibold mb-2">Add New Product</h3>
             <div class="flex flex-col sm:flex-row gap-2">
                 <input id="product-name" type="text" placeholder="Product Name" class="border p-2 rounded w-full">
@@ -202,7 +202,7 @@
             // X Axis Label
             svg.append("text")
                 .attr("x", width / 2)
-                .attr("y", height + margin.bottom -15)
+                .attr("y", height + margin.bottom - 15)
                 .attr("text-anchor", "middle")
                 .text("Date")
                 .attr("fill", "black")
@@ -219,7 +219,8 @@
                 .style("font-size", "14px");
         }
 
-        function renderPieChart() {
+        // Render Pie Chart
+function renderPieChart() {
     const categoriesCount = products.reduce((acc, product) => {
         acc[product.category] = (acc[product.category] || 0) + 1;
         return acc;
@@ -228,7 +229,6 @@
     const data = Object.entries(categoriesCount);
 
     const width = 400, height = 400, radius = Math.min(width, height) / 2;
-    const gapSize = 15; // Gap between slices (in pixels)
 
     const svg = d3.select("#products-pie-chart")
         .html("") // Clear any existing content
@@ -243,12 +243,11 @@
         .range(d3.schemeCategory10);
 
     const pie = d3.pie()
-        .value(d => d[1])
-        .padAngle(gapSize / radius); // Add spacing between slices
+        .value(d => d[1]);
 
     const arc = d3.arc()
-        .innerRadius(radius * 0.5) //hollows out the inner circle with half the radius
-        .outerRadius(radius - gapSize); // adjust outer radius for gaps
+        .innerRadius(0) // For a full pie chart
+        .outerRadius(radius);
 
     const arcs = svg.selectAll("arc")
         .data(pie(data))
@@ -256,17 +255,14 @@
         .append("g")
         .attr("class", "arc");
 
-    // Draw slices
     arcs.append("path")
         .attr("d", arc)
         .attr("fill", d => color(d.data[0]));
 
-    // Add labels
     arcs.append("text")
         .attr("transform", d => `translate(${arc.centroid(d)})`)
         .attr("text-anchor", "middle")
         .attr("fill", "white")
-        .style("font-size", "12px")
         .text(d => `${d.data[0]} (${d.data[1]})`);
 }
 
